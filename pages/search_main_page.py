@@ -3,7 +3,7 @@ from pages.search_results_page import SearchResultsPage
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.ui import WebDriverWait
 from locators.search_main_page_locators import SearchMainPageLocators
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 
 
 class SearchMainPage(BasePage):
@@ -16,11 +16,12 @@ class SearchMainPage(BasePage):
         self.driver.get(self.url)
 
     def fill_query(self, query):
-        search_input = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((self.locator.search_input)))
+        search_input = WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((self.locator.search_input)))
         search_input.send_keys(query)
 
     def click_search_button(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.locator.search_button)).click()
+        search_button = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable(self.locator.search_button))
+        search_button.click()
         return SearchResultsPage(self.driver)
 
 
@@ -29,7 +30,8 @@ if __name__ == '__main__':
     page = SearchMainPage(driver=my_driver)
     page.open()
     print('Page title: ' + my_driver.title)
-    page.fill_query("vk")
+    page.fill_query("playrix")
     page2 = page.click_search_button()
     page2.get_title()
+    page2.check_results(["playrix", "плейрикс"])
     my_driver.quit()
