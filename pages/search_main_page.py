@@ -1,6 +1,8 @@
 from pages.base_page import BasePage
 from pages.search_results_page import SearchResultsPage
-from selenium.webdriver import Firefox
+from pages.set_homepage_page import SetHomePPage
+from pages.yandex_mail_page import YandexMailPage
+from pages.yandex_main_page import YandexRuPage
 from selenium.webdriver.support.ui import WebDriverWait
 from locators.search_main_page_locators import SearchMainPageLocators
 from selenium.webdriver.support import expected_conditions as ec
@@ -24,14 +26,17 @@ class SearchMainPage(BasePage):
         search_button.click()
         return SearchResultsPage(self.driver)
 
+    def to_mail(self):
+        to_mail_button = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable(self.locator.to_mail_button))
+        to_mail_button.click()
+        return YandexMailPage(self.driver)
 
-if __name__ == '__main__':
-    my_driver = Firefox()
-    page = SearchMainPage(driver=my_driver)
-    page.open()
-    print('Page title: ' + my_driver.title)
-    page.fill_query("playrix")
-    page2 = page.click_search_button()
-    page2.get_title()
-    page2.check_results(["playrix", "плейрикс"])
-    my_driver.quit()
+    def set_homepage(self):
+        set_homepage_button = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable(self.locator.set_homepage_button))
+        set_homepage_button.click()
+        return SetHomePPage(self.driver)
+
+    def to_yandex_ru(self):
+        to_yandex_button = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable(self.locator.yandex_link))
+        to_yandex_button.click()
+        return YandexRuPage(self.driver)
