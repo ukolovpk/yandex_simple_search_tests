@@ -1,1 +1,2 @@
-# yandex_simple_serach_tests
+# yandex_simple_search_tests
+#Python + Pytest + Selenium WebDriver
